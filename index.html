@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Minha Loja de Livros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS MODERNOS (CSS) --- */
+        :root {
+            --cor-principal: #101010; /* Roxo moderno */
+            --cor-secundaria: #5b5b5c;
+            --cor-fundo: #F4F7F6;
+            --cor-texto: #2D3436;
+            --cor-botao: #00B894; /* Verde chamativo para compra */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e0e0e0; /* Fundo escuro fora do app (para PC) */
+            margin: 0;
+            padding: 0;
+            color: var(--cor-texto);
+        }
+
+        /* Simulador da Tela do Telemóvel */
+        .app-container {
+            max-width: 414px; /* Largura padrão de telemóvel grande */
+            min-height: 100vh;
+            margin: 0 auto;
+            background-color: var(--cor-fundo);
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animação suave entre telas */
+        .tela {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+            padding: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================
+           TELA 1: BOAS-VINDAS (SPLASH)
+           ========================================== */
+        #tela-splash {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+            color: white;
+            text-align: center;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        #tela-splash h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        #tela-splash p {
+            font-size: 16px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .btn-comecar {
+            background-color: white;
+            color: var(--cor-principal);
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-comecar:active {
+            transform: scale(0.95);
+        }
+
+        /* ==========================================
+           TELA 2: VITRINE DE LIVROS
+           ========================================== */
+        .titulo-secao {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--cor-principal);
+        }
+
+        .livro-card {
+            background: white;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .livro-card:active {
+            transform: scale(0.98);
+        }
+
+        .livro-card img {
+            width: 80px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .livro-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .livro-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #636e72;
+        }
+
+        .livro-info .btn-ver {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--cor-principal);
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           TELA 3: DETALHES DO LIVRO
+           ========================================== */
+        .cabecalho-detalhes {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-voltar {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--cor-texto);
+            cursor: pointer;
+            padding: 0;
+            margin-right: 15px;
+        }
+
+        #detalhe-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        #detalhe-titulo {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+
+        #detalhe-descricao {
+            font-size: 14px;
+            color: #636e72;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Botões de Escolha de Formato Modernos */
+        .formatos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .formato-opcao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #dfe6e9;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .formato-opcao.selecionado {
+            border-color: var(--cor-principal);
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+
+        .formato-opcao input[type="radio"] {
+            display: none; /* Esconde a bolinha padrão do rádio */
+        }
+
+        .formato-info strong {
+            display: block;
+            font-size: 15px;
+        }
+
+        .formato-info span {
+            font-size: 12px;
+            color: #636e72;
+        }
+
+        .formato-preco {
+            font-weight: 700;
+            color: var(--cor-principal);
+            font-size: 16px;
+        }
+
+        /* Rodapé de Pagamento */
+        .rodape-pagamento {
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .logos-pagamento {
+            font-size: 12px;
+            color: #b2bec3;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .btn-comprar {
+            background-color: var(--cor-botao);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+            transition: background 0.2s;
+        }
+
+        .btn-comprar:active {
+            background-color: #00a885;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <div id="tela-splash" class="tela" style="display: flex;">
+            <div>
+                <h1>Dar-Ul-Kitab</h1> <p>O seu conhecimento, na palma da mão. Físico ou digital.</p>
+            </div>
+            <button class="btn-comecar" onclick="iniciarApp()">Começar a Comprar</button>
+        </div>
+
+
+        <div id="tela-vitrine" class="tela">
+            <h2 class="titulo-secao">Livros Disponiveis</h2>
+
+            <div class="livro-card" onclick="mostrarDetalhes(
+                'Umrah Hajj e Ziyarat ', 
+                'imagens/umrah.jpg', 
+                'Este livro apresenta um visual moderno e dinâmico, com um design gráfico chamativo. Provavelmente aborda conteúdos educativos ou técnicos, sendo ideal para quem busca conhecimento de forma estruturada e visualmente atrativa.', 
+                '400', 
+                '900'
+            )">
+                <img src="imagens/umrah.jpg" alt="Capa">
+                <div class="livro-info">
+                    <h3>Umrah Hajj e Ziyarat</h3>
+                    <p>Por Sheick Aminnudin Muhammad</p>
+                    <span class="btn-ver">Ver Detalhes ➜</span>
+                </div>
+            </div>
+            <div class="livro-card" onclick="mostrarDetalhes(
+                'Duas e Rituais', 
+                'imagens/duas.jpg', 
+                'Aprenda muitos duas que devem ser aplicados na vida real e no seu dia a dia deve recitar contantemente', 
+                '300', 
+                '850'
+            )">
+                <img src="imagens/duas.jpg" alt="Capa">
+                <div class="livro-info">
+                    <h3>Duás e Rituais </h3>
+                    <p>Por Sheick Aminnudin Muhammad</p>
+                    <span class="btn-ver">Ver Detalhes ➜</span>
+                </div>
+            </div>
+            <div class="livro-card" onclick="mostrarDetalhes(
+                'Regras de Tajweed', 
+                'imagens/regras.jpg', 
+                'Este livro aborda todas as principais regras de tajweed que devem ser obedecidas durante a sua recitacao do alcorao', 
+                '400', 
+                '900'
+            )">
+                <img src="imagens/regras.jpg" alt="Capa">
+                <div class="livro-info">
+                    <h3>Regras de Tajweed </h3>
+                    <p>Por Sheick Aminnudin Muhammad</p>
+                    <span class="btn-ver">Ver Detalhes ➜</span>
+                </div>
+            </div>
+            </div>
+
+
+        <div id="tela-detalhes" class="tela">
+            <div class="cabecalho-detalhes">
+                <button class="btn-voltar" onclick="voltarParaVitrine()">←</button>
+                <h3 style="margin: 0; font-size: 18px;">Detalhes</h3>
+            </div>
+            
+            <img id="detalhe-img" src="" alt="Capa do Livro">
+            <h2 id="detalhe-titulo">Título do Livro</h2>
+            <p id="detalhe-descricao">Descrição...</p>
+            
+            <h3 style="font-size: 16px; margin-bottom: 10px;">Escolha o formato:</h3>
+            
+            <div class="formatos-container">
+                <label class="formato-opcao selecionado" id="label-pdf" onclick="selecionarFormato('pdf')">
+                    <input type="radio" name="formato" value="pdf" checked>
+                    <div class="formato-info">
+                        <strong>Livro Digital (PDF)</strong>
+                        <span>Recebe no e-mail na hora</span>
+                    </div>
+                    <div class="formato-preco"><span id="detalhe-preco-pdf">0</span> MT</div>
+                </label>
+
+                <label class="formato-opcao" id="label-fisico" onclick="selecionarFormato('fisico')">
+                    <input type="radio" name="formato" value="fisico">
+                    <div class="formato-info">
+                        <strong>Livro Físico</strong>
+                        <span>Entrega ao domicílio</span>
+                    </div>
+                    <div class="formato-preco"><span id="detalhe-preco-fisico">0</span> MT</div>
+                </label>
+            </div>
+
+            <div class="rodape-pagamento">
+                <div class="logos-pagamento">
+                    🔒 PAGAMENTO SEGURO VIA M-PESA • E-MOLA • VISA
+                </div>
+                <button class="btn-comprar" onclick="alert('Conectando ao sistema M-Pesa / e-Mola...')">COMPRAR AGORA</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. Sai da tela de Boas-Vindas para a Vitrine
+        function iniciarApp() {
+            document.getElementById('tela-splash').style.display = 'none';
+            document.getElementById('tela-vitrine').style.display = 'block';
+        }
+
+        // 2. Abre os detalhes do livro clicado
+        function mostrarDetalhes(titulo, imagem, descricao, precoPdf, precoFisico) {
+            document.getElementById('detalhe-titulo').innerText = titulo;
+            document.getElementById('detalhe-img').src = imagem;
+            document.getElementById('detalhe-descricao').innerText = descricao;
+            document.getElementById('detalhe-preco-pdf').innerText = precoPdf;
+            document.getElementById('detalhe-preco-fisico').innerText = precoFisico;
+
+            document.getElementById('tela-vitrine').style.display = 'none';
+            document.getElementById('tela-detalhes').style.display = 'block';
+            window.scrollTo(0, 0); // Volta pro topo
+        }
+
+        // 3. Botão de voltar
+        function voltarParaVitrine() {
+            document.getElementById('tela-detalhes').style.display = 'none';
+            document.getElementById('tela-vitrine').style.display = 'block';
+        }
+
+        // 4. Faz a bordinha roxa mudar quando escolhe PDF ou Físico
+        function selecionarFormato(tipo) {
+            document.getElementById('label-pdf').classList.remove('selecionado');
+            document.getElementById('label-fisico').classList.remove('selecionado');
+            
+            if(tipo === 'pdf') {
+                document.getElementById('label-pdf').classList.add('selecionado');
+            } else {
+                document.getElementById('label-fisico').classList.add('selecionado');
+            }
+        }
+    </script>
+</body>
+</html>
